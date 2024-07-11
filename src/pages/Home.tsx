@@ -1,4 +1,5 @@
 import CategorySection from "../components/home/CategorySection";
+import ContactUsSection from "../components/home/ContactUsSection";
 import FeaturedSection from "../components/home/FeaturedSection";
 import HeroSection from "../components/home/HeroSection";
 
@@ -8,6 +9,7 @@ const Home = () => {
       <HeroSection />
       <FeaturedSection />
       <CategorySection />
+      <ContactUsSection />
     </div>
   );
 };
