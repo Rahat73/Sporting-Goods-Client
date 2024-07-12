@@ -10,12 +10,19 @@ import {
 } from "antd";
 import { useState } from "react";
 import { FaFilter } from "react-icons/fa6";
+import { useGetProductsQuery } from "../redux/api/baseApi";
+import ProductCard from "../components/ui/ProductCard";
+import { TProduct } from "../interface/types";
 const { Search } = Input;
+
 const AllProducts = () => {
   const [open, setOpen] = useState(false);
+  const { data, isLoading } = useGetProductsQuery(undefined);
+  console.log(data);
+
   return (
-    <div className="bg-gray-100 min-h-screen w-10/12 mx-auto">
-      <div className="container mx-auto py-12">
+    <div className="bg-white min-h-screen w-10/12 mx-auto my-10 rounded-lg p-10">
+      <div className="container mx-auto">
         <h1 className="text-4xl font-bold text-center mb-12">All Products</h1>
         <div className="flex space-x-5">
           <Space.Compact className=" flex items-center space-x-2">
@@ -25,6 +32,11 @@ const AllProducts = () => {
           <Button type="primary" onClick={() => setOpen(true)}>
             <FaFilter /> Filter
           </Button>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 p-10">
+          {data?.data?.map((item: TProduct) => (
+            <ProductCard key={item?._id} {...item} />
+          ))}
         </div>
         <Drawer
           className=""
