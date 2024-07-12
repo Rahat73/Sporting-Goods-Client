@@ -1,5 +1,6 @@
-import { Button, Divider } from "antd";
+import { Button } from "antd";
 import CartItemCard from "../components/ui/CartItemCard";
+import { Link } from "react-router-dom";
 
 const Cart = () => {
   return (
@@ -21,7 +22,7 @@ const Cart = () => {
             <strong>Total Amount:</strong> $104.99
           </p>
           <Button className="text-xl p-5 my-10 w-[300px]" type="primary">
-            Proceed to Checkout
+            <Link to="/checkout">Proceed to Checkout</Link>
           </Button>
         </div>
       </div>

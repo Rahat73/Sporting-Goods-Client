@@ -30,8 +30,16 @@ const CartItemCard = () => {
             value={value}
             min={1}
             onChange={(value) => setValue(value as number)}
-            addonAfter={<Button onClick={increment}>+</Button>}
-            addonBefore={<Button onClick={decrement}>-</Button>}
+            addonAfter={
+              <Button className="m-0 border-0" onClick={increment}>
+                +
+              </Button>
+            }
+            addonBefore={
+              <Button className="m-0 border-0" onClick={decrement}>
+                -
+              </Button>
+            }
           />
         </p>
       </div>
