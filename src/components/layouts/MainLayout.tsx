@@ -6,6 +6,8 @@ import {
 } from "react-icons/fa6";
 import { NavLink, Outlet } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
+import { useEffect } from "react";
+import { useAppSelector } from "../../redux/hooks";
 const { Header, Content, Footer } = Layout;
 const items = [
   {
@@ -31,6 +33,23 @@ const items = [
 ];
 
 const MainLayout = () => {
+  const { cart } = useAppSelector((state) => state.cart);
+
+  useEffect(() => {
+    if (!cart.length) return;
+
+    const handleBeforeUnload = (event) => {
+      event.preventDefault();
+      event.returnValue = "";
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [cart]);
+
   return (
     <Layout>
       <Header
