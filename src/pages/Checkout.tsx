@@ -1,5 +1,5 @@
 import { Button, Form, FormProps, Input, message, Steps } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaStripe } from "react-icons/fa6";
 import { IoMdCash } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
@@ -25,6 +25,10 @@ const steps = [
 const items = steps.map((item) => ({ key: item.title, title: item.title }));
 
 const Checkout = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const [current, setCurrent] = useState(0);
   const [selectedPayment, setSelectedPayment] = useState<string | null>(null);
   const [formValues, setFormValues] = useState<FieldType>();

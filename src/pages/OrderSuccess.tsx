@@ -1,8 +1,12 @@
 import { Button } from "antd";
+import { useEffect } from "react";
 import { FaCircleCheck } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 
 const OrderSuccess = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div className="w-10/12 mx-auto flex justify-center items-center bg-white p-10 my-10 rounded-lg">
       <div className="flex flex-col space-y-10 justify-center items-center">

@@ -4,8 +4,13 @@ import { Button } from "antd";
 import { useParams } from "react-router-dom";
 import { useGetProductByIdQuery } from "../redux/api/baseApi";
 import { TProduct } from "../interface/types";
+import { useEffect } from "react";
 
 const ProductDetails = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const { id } = useParams();
 
   const { data, isLoading } = useGetProductByIdQuery(id as string);

@@ -8,7 +8,7 @@ import {
   Slider,
   Space,
 } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaFilter } from "react-icons/fa6";
 import { useGetProductsQuery } from "../redux/api/baseApi";
 import ProductCard from "../components/ui/ProductCard";
@@ -16,6 +16,10 @@ import { TProduct } from "../interface/types";
 const { Search } = Input;
 
 const AllProducts = () => {
+  useEffect(() => {
+    scrollTo(0, 0);
+  }, []);
+
   const [open, setOpen] = useState(false);
   const { data, isLoading } = useGetProductsQuery(undefined);
   console.log(data);

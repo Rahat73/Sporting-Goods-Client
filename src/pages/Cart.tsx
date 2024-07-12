@@ -1,8 +1,12 @@
 import { Button } from "antd";
 import CartItemCard from "../components/ui/CartItemCard";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 const Cart = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div className="w-10/12 mx-auto bg-white rounded-lg p-10 my-10">
       <p className="text-3xl font-bold mb-8 text-center">Cart</p>

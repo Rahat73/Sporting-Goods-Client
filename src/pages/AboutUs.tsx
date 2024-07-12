@@ -4,8 +4,12 @@ import image_3 from "../assets/images/contactus.webp";
 import image_4 from "../assets/images/team-1.jpg";
 import image_5 from "../assets/images/team-2.jpg";
 import image_6 from "../assets/images/team-3.jpg";
+import { useEffect } from "react";
 
 const AboutUs = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div className="bg-gray-100 min-h-screen w-10/12 mx-auto">
       <div className="container mx-auto py-12">
