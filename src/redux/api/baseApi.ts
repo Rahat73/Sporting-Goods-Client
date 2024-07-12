@@ -8,9 +8,24 @@ export const baseApi = createApi({
   tagTypes: ["product"],
   endpoints: (builder) => ({
     getProducts: builder.query({
-      query: () => {
+      query: (params: Record<string, string | number | boolean> = {}) => {
+        const filteredParams = Object.fromEntries(
+          Object.entries(params).filter(
+            ([, value]) => value !== "" && value != null
+          )
+        );
+
+        const queryParams = new URLSearchParams();
+        Object.entries(filteredParams).forEach(([key, value]) => {
+          queryParams.append(key, String(value));
+        });
+
+        const url = queryParams.toString()
+          ? `/products?${queryParams.toString()}`
+          : "/products";
+
         return {
-          url: "/products",
+          url,
           method: "GET",
         };
       },

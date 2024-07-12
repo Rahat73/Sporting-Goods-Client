@@ -7,12 +7,13 @@ import {
   Select,
   Slider,
   Space,
+  Spin,
 } from "antd";
 import { useEffect, useState } from "react";
 import { FaFilter } from "react-icons/fa6";
-import { useGetProductsQuery } from "../redux/api/baseApi";
 import ProductCard from "../components/ui/ProductCard";
 import { TProduct } from "../interface/types";
+import { useGetProductsQuery } from "../redux/api/baseApi";
 const { Search } = Input;
 
 const AllProducts = () => {
@@ -20,28 +21,68 @@ const AllProducts = () => {
     scrollTo(0, 0);
   }, []);
 
+  const [searchParams, setSearchParams] = useState<string>();
+  const [category, setCategory] = useState<string | null>();
+  const [brand, setBrand] = useState<string | null>();
+  const [priceRange, setPriceRange] = useState<number[]>([0, 1000]);
+  const [rating, setRating] = useState<number | undefined>(undefined);
+  const [priceSort, setPriceSort] = useState<string>();
+  const [priceSorted, setPriceSorted] = useState<string>();
+
   const [open, setOpen] = useState(false);
-  const { data, isLoading } = useGetProductsQuery(undefined);
-  console.log(data);
+
+  const handleSortChange = (value) => {
+    setPriceSort(value);
+    if (value === "High>Low") setPriceSorted("-price");
+    else if (value === "Low>High") setPriceSorted("price");
+  };
+
+  const handleReset = () => {
+    setCategory(null);
+    setBrand(null);
+    setPriceRange([0, 1000]);
+    setRating(undefined);
+    setPriceSort(undefined);
+    setPriceSorted(undefined);
+  };
+
+  console.log(priceSort);
+
+  const { data, isLoading } = useGetProductsQuery({
+    searchParams,
+    category,
+    brand,
+    min: priceRange[0],
+    max: priceRange[1],
+    rating,
+    sort: priceSorted,
+  });
 
   return (
     <div className="bg-white min-h-screen w-10/12 mx-auto my-10 rounded-lg p-10">
       <div className="container mx-auto">
         <h1 className="text-4xl font-bold text-center mb-12">All Products</h1>
+
         <div className="flex space-x-5">
           <Space.Compact className=" flex items-center space-x-2">
             <p>Search:</p>
-            <Search placeholder="search by product name" allowClear />
+            <Search
+              placeholder="search by product name"
+              allowClear
+              onSearch={(value) => setSearchParams(value)}
+            />
           </Space.Compact>
           <Button type="primary" onClick={() => setOpen(true)}>
             <FaFilter /> Filter
           </Button>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 p-10">
-          {data?.data?.map((item: TProduct) => (
-            <ProductCard key={item?._id} {...item} />
-          ))}
-        </div>
+        <Spin size="large" spinning={isLoading}>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 p-10">
+            {data?.data?.map((item: TProduct) => (
+              <ProductCard key={item?._id} {...item} />
+            ))}
+          </div>
+        </Spin>
         <Drawer
           className=""
           title="Search / filter"
@@ -53,10 +94,12 @@ const AllProducts = () => {
               <p>Category:</p>
               <Select
                 //   className="w-56"
-                defaultValue={""}
+                onSelect={(value) => setCategory(value)}
+                defaultValue={null}
+                value={category}
                 options={[
                   {
-                    value: "",
+                    value: null,
                     label: <span>Select a category</span>,
                   },
                   {
@@ -77,11 +120,12 @@ const AllProducts = () => {
             <Space.Compact className="flex flex-col">
               <p>Brand:</p>
               <Select
-                //   className="w-56"
-                defaultValue={""}
+                onSelect={(value) => setBrand(value)}
+                defaultValue={null}
+                value={brand}
                 options={[
                   {
-                    value: "",
+                    value: null,
                     label: <span>Select a brand</span>,
                   },
                   {
@@ -111,20 +155,40 @@ const AllProducts = () => {
               <p>Price Range:</p>
               <Slider
                 //   className="w-96"
+                onChange={(value) => setPriceRange(value)}
                 range
-                defaultValue={[1000, 5000]}
+                defaultValue={[0, 1000]}
+                value={priceRange}
                 min={0}
-                max={10000}
+                max={1000}
               />
             </Space.Compact>
             <Space.Compact className="flex flex-col">
               <p>Rating:</p>
-              <Rate allowHalf defaultValue={3.5} />
+              <Rate
+                allowHalf
+                value={rating}
+                onChange={(value) => setRating(value)}
+              />
             </Space.Compact>
             <Space.Compact className="flex flex-col">
               <p>Sort by price:</p>
-              <Segmented options={["Low>High", "High>Low"]} block />
+              <Segmented
+                defaultValue=""
+                value={priceSort}
+                options={["Low>High", "High>Low"]}
+                block
+                onChange={handleSortChange}
+              />
             </Space.Compact>
+
+            <Button
+              className="text-md p-2  my-10 w-[100px]"
+              type="primary"
+              onClick={handleReset}
+            >
+              Clear filter
+            </Button>
           </div>
         </Drawer>
       </div>

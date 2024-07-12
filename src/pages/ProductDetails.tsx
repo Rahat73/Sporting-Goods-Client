@@ -1,6 +1,6 @@
 import Rating from "react-rating";
 import { FaRegStar, FaStar } from "react-icons/fa6";
-import { Button } from "antd";
+import { Button, Spin } from "antd";
 import { useParams } from "react-router-dom";
 import { useGetProductByIdQuery } from "../redux/api/baseApi";
 import { TProduct } from "../interface/types";
@@ -16,7 +16,11 @@ const ProductDetails = () => {
   const { data, isLoading } = useGetProductByIdQuery(id as string);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <Spin size="large">
+        <div className="min-h-screen flex justify-center items-center"></div>
+      </Spin>
+    );
   }
 
   const {
