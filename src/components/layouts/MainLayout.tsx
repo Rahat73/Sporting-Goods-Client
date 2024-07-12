@@ -22,7 +22,7 @@ const items = [
   },
   {
     key: "cart",
-    label: "Cart",
+    label: <NavLink to={`/cart`}>Cart</NavLink>,
   },
   {
     key: "about-us",

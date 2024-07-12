@@ -106,7 +106,7 @@ const AllProducts = () => {
               <Rate allowHalf defaultValue={3.5} />
             </Space.Compact>
             <Space.Compact className="flex flex-col">
-              <p>Sort by:</p>
+              <p>Sort by price:</p>
               <Segmented options={["Low>High", "High>Low"]} block />
             </Space.Compact>
           </div>
