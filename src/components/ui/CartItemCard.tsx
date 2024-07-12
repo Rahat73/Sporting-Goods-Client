@@ -1,13 +1,12 @@
 import { Button, InputNumber } from "antd";
-import { useState } from "react";
 import { FaTrash } from "react-icons/fa6";
-import { TCartItem } from "../../types/types";
-import { useAppDispatch } from "../../redux/hooks";
 import {
   decreaseQuantity,
   increaseQuantity,
   removeFromCart,
 } from "../../redux/features/cart/cartSlice";
+import { useAppDispatch } from "../../redux/hooks";
+import { TCartItem } from "../../types/types";
 
 const CartItemCard = ({ id, name, price, quantity, image }: TCartItem) => {
   console.log(quantity);

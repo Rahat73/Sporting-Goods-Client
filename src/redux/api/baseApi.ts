@@ -52,7 +52,7 @@ export const baseApi = createApi({
     }),
     updateProduct: builder.mutation({
       query: ({ _id, data }) => {
-        return { url: `/products/${_id}`, method: "PATCH", body: data };
+        return { url: `/products/${_id}`, method: "PUT", body: data };
       },
       invalidatesTags: ["product"],
     }),

@@ -44,7 +44,8 @@ const ProductCard = ({
             <strong>Brand:</strong> {brand}
           </p>
           <p>
-            <strong>Description:</strong> {description}
+            <strong>Description:</strong>{" "}
+            {description.split(" ").slice(0, 10).join(" ")}...
           </p>
           <p>
             <strong>Rating: </strong>
