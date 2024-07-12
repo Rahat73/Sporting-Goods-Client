@@ -3,8 +3,10 @@ import { FaRegStar, FaStar } from "react-icons/fa6";
 import { Button, Spin } from "antd";
 import { useParams } from "react-router-dom";
 import { useGetProductByIdQuery } from "../redux/api/baseApi";
-import { TProduct } from "../interface/types";
+import { TProduct } from "../types/types";
 import { useEffect } from "react";
+import { useAppDispatch } from "../redux/hooks";
+import { addToCart } from "../redux/features/cart/cartSlice";
 
 const ProductDetails = () => {
   useEffect(() => {
@@ -12,6 +14,8 @@ const ProductDetails = () => {
   }, []);
 
   const { id } = useParams();
+
+  const dispatch = useAppDispatch();
 
   const { data, isLoading } = useGetProductByIdQuery(id as string);
 
@@ -24,7 +28,7 @@ const ProductDetails = () => {
   }
 
   const {
-    // _id,
+    _id,
     name,
     category,
     instock,
@@ -69,7 +73,13 @@ const ProductDetails = () => {
             <strong>Description:</strong> {description}
           </p>
           <div className="">
-            <Button className="text-xl p-5 pb-6 my-10 w-[300px]" type="primary">
+            <Button
+              className="text-xl p-5 pb-6 my-10 w-[300px]"
+              type="primary"
+              onClick={() =>
+                dispatch(addToCart({ id: _id, name, price, image }))
+              }
+            >
               Add to Cart
             </Button>
           </div>

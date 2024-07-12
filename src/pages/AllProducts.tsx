@@ -12,8 +12,9 @@ import {
 import { useEffect, useState } from "react";
 import { FaFilter } from "react-icons/fa6";
 import ProductCard from "../components/ui/ProductCard";
-import { TProduct } from "../interface/types";
+
 import { useGetProductsQuery } from "../redux/api/baseApi";
+import { TProduct } from "../types/types";
 const { Search } = Input;
 
 const AllProducts = () => {
@@ -31,7 +32,7 @@ const AllProducts = () => {
 
   const [open, setOpen] = useState(false);
 
-  const handleSortChange = (value) => {
+  const handleSortChange = (value: string) => {
     setPriceSort(value);
     if (value === "High>Low") setPriceSorted("-price");
     else if (value === "Low>High") setPriceSorted("price");
@@ -45,8 +46,6 @@ const AllProducts = () => {
     setPriceSort(undefined);
     setPriceSorted(undefined);
   };
-
-  console.log(priceSort);
 
   const { data, isLoading } = useGetProductsQuery({
     searchParams,

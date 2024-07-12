@@ -1,11 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-
-type TCartItem = {
-  id: string;
-  name: string;
-  quantity: number;
-  price: number;
-};
+import { TCartItem } from "../../../types/types";
 
 type TInitialState = {
   cart: TCartItem[];
@@ -24,7 +18,7 @@ const cartSlice = createSlice({
         (cartItem) => cartItem.id === action.payload.id
       );
       if (item) {
-        item.quantity += 1;
+        item.quantity! += 1;
       } else {
         state.cart.push({ ...action.payload, quantity: 1 });
       }
@@ -39,15 +33,15 @@ const cartSlice = createSlice({
         (cartItem) => cartItem.id === action.payload
       );
       if (item) {
-        item.quantity += 1;
+        item.quantity! += 1;
       }
     },
     decreaseQuantity: (state, action: PayloadAction<string>) => {
       const item = state.cart.find(
         (cartItem) => cartItem.id === action.payload
       );
-      if (item && item.quantity > 1) {
-        item.quantity -= 1;
+      if (item && item.quantity! > 1) {
+        item.quantity! -= 1;
       }
     },
   },

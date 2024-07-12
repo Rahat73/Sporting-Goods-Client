@@ -9,3 +9,11 @@ export type TProduct = {
   price: number;
   image: string;
 };
+
+export type TCartItem = {
+  id: string;
+  name: string;
+  quantity?: number;
+  price: number;
+  image: string;
+};

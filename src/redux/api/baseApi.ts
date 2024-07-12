@@ -8,7 +8,12 @@ export const baseApi = createApi({
   tagTypes: ["product"],
   endpoints: (builder) => ({
     getProducts: builder.query({
-      query: (params: Record<string, string | number | boolean> = {}) => {
+      query: (
+        params: Record<
+          string,
+          string | number | boolean | undefined | null
+        > = {}
+      ) => {
         const filteredParams = Object.fromEntries(
           Object.entries(params).filter(
             ([, value]) => value !== "" && value != null

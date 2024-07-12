@@ -1,5 +1,5 @@
 import { Button, Card } from "antd";
-import { TProduct } from "../../interface/types";
+import { TProduct } from "../../types/types";
 import { Link } from "react-router-dom";
 import Rating from "react-rating";
 import { FaRegStar, FaStar } from "react-icons/fa6";
