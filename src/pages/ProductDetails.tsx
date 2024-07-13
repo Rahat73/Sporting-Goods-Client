@@ -75,6 +75,7 @@ const ProductDetails = () => {
           </p>
           <p>
             <strong>Rating: </strong>
+            {/* @ts-expect-error there is a version miss-match in the source */}
             <Rating
               initialRating={rating}
               readonly={true}

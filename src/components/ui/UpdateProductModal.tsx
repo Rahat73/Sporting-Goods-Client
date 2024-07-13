@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Button,
   Form,
@@ -26,7 +27,7 @@ type FieldType = {
   rating: number;
   description: string;
   price: number;
-  image: File[];
+  image: any;
 };
 
 type TUpdateProductModalProps = TProduct & {

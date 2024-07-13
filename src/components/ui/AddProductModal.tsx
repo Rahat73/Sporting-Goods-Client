@@ -30,7 +30,7 @@ type FieldType = {
   rating: number;
   description: string;
   price: number;
-  image: File[];
+  image: any;
 };
 
 const { TextArea } = Input;

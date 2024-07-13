@@ -38,7 +38,8 @@ const MainLayout = () => {
   useEffect(() => {
     if (!cart.length) return;
 
-    const handleBeforeUnload = (event) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const handleBeforeUnload = (event: any) => {
       event.preventDefault();
       event.returnValue = "";
     };

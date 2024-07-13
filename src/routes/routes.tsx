@@ -1,5 +1,4 @@
 import { createBrowserRouter } from "react-router-dom";
-import App from "../App";
 import AboutUs from "../pages/AboutUs";
 import AllProducts from "../pages/AllProducts";
 import Home from "../pages/Home";
@@ -8,42 +7,43 @@ import ProductDetails from "../pages/ProductDetails";
 import Cart from "../pages/Cart";
 import Checkout from "../pages/Checkout";
 import OrderSuccess from "../pages/OrderSuccess";
+import MainLayout from "../components/layouts/MainLayout";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <MainLayout />,
     children: [
       {
-        path: "/",
+        path: "",
         element: <Home />,
       },
       {
-        path: "/about-us",
+        path: "about-us",
         element: <AboutUs />,
       },
       {
-        path: "/all-products",
+        path: "all-products",
         element: <AllProducts />,
       },
       {
-        path: "/manage-products",
+        path: "manage-products",
         element: <ManageProducts />,
       },
       {
-        path: "/product/:id",
+        path: "product/:id",
         element: <ProductDetails />,
       },
       {
-        path: "/cart",
+        path: "cart",
         element: <Cart />,
       },
       {
-        path: "/checkout",
+        path: "checkout",
         element: <Checkout />,
       },
       {
-        path: "/order-success",
+        path: "order-success",
         element: <OrderSuccess />,
       },
     ],
