@@ -23,7 +23,7 @@ const ProductCard = ({
           <img
             alt="example"
             src={image}
-            className="transition-transform duration-300 ease-in-out group-hover:scale-105"
+            className="transition-transform duration-300 ease-in-out group-hover:scale-105 min-h-[300px] max-h-[300px]"
           />
         }
       >
@@ -45,7 +45,7 @@ const ProductCard = ({
           </p>
           <p>
             <strong>Description:</strong>{" "}
-            {description.split(" ").slice(0, 10).join(" ")}...
+            {description?.split(" ")?.slice(0, 10)?.join(" ")}...
           </p>
           <p>
             <strong>Rating: </strong>

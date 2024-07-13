@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { FaStripe } from "react-icons/fa6";
 import { IoMdCash } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import { useAddOrderMutation } from "../redux/api/baseApi";
 type FieldType = {
   name: string;
   email?: string;
@@ -57,6 +58,16 @@ const Checkout = () => {
 
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
     console.log("Success:", values);
+  };
+
+  const [addOrder, { isLoading }] = useAddOrderMutation();
+
+  const handleOrder = () => {
+    console.log(formValues);
+    // addOrder()
+
+    // message.success("Processing complete!");
+    // navigate("/order-success");
   };
 
   const handleSelection = (paymentMethod: string) => {
@@ -202,8 +213,7 @@ const Checkout = () => {
           <Button
             type="primary"
             onClick={() => {
-              message.success("Processing complete!");
-              navigate("/order-success");
+              handleOrder();
             }}
           >
             Submit
