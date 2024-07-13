@@ -15,12 +15,16 @@ import ProductCard from "../components/ui/ProductCard";
 
 import { useGetProductsQuery } from "../redux/api/baseApi";
 import { TProduct } from "../types/types";
+import { useLocation } from "react-router-dom";
 const { Search } = Input;
 
 const AllProducts = () => {
   useEffect(() => {
     scrollTo(0, 0);
   }, []);
+
+  const location = useLocation();
+  const value = location.state?.value;
 
   const [searchParams, setSearchParams] = useState<string>();
   const [category, setCategory] = useState<string | null>();
@@ -31,6 +35,10 @@ const AllProducts = () => {
   const [priceSorted, setPriceSorted] = useState<string>();
 
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    setCategory(value);
+  }, [value]);
 
   const handleSortChange = (value: string) => {
     setPriceSort(value);
@@ -47,15 +55,18 @@ const AllProducts = () => {
     setPriceSorted(undefined);
   };
 
-  const { data, isLoading } = useGetProductsQuery({
-    searchParams,
-    category,
-    brand,
-    min: priceRange[0],
-    max: priceRange[1],
-    rating,
-    sort: priceSorted,
-  });
+  const { data, isLoading } = useGetProductsQuery(
+    {
+      searchParams,
+      category,
+      brand,
+      min: priceRange[0],
+      max: priceRange[1],
+      rating,
+      sort: priceSorted,
+    },
+    { pollingInterval: 30000 }
+  );
 
   return (
     <div className="bg-white min-h-screen w-10/12 mx-auto my-10 rounded-lg p-10">
