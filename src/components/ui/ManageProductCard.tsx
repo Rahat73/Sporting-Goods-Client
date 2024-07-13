@@ -1,9 +1,10 @@
 import { EditOutlined } from "@ant-design/icons";
-import { Card } from "antd";
+import { Card, message, Popconfirm, PopconfirmProps } from "antd";
 import { useState } from "react";
 import { FaTrashAlt } from "react-icons/fa";
 import { TProduct } from "../../types/types";
 import UpdateProductModal from "./UpdateProductModal";
+import { useDeleteProductMutation } from "../../redux/api/baseApi";
 
 const ManageProductCard = ({
   _id,
@@ -17,6 +18,17 @@ const ManageProductCard = ({
   image,
 }: TProduct) => {
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState<boolean>(false);
+  const [deleteProduct] = useDeleteProductMutation();
+
+  const confirm: PopconfirmProps["onConfirm"] = async () => {
+    const result = await deleteProduct(_id).unwrap();
+    console.log(result);
+    if (result?.success) {
+      message.success("Product deleted successfully!");
+    }
+  };
+
+  const cancel: PopconfirmProps["onCancel"] = () => {};
   return (
     <>
       <Card
@@ -57,9 +69,18 @@ const ManageProductCard = ({
           >
             <EditOutlined key="edit" /> <p>Edit</p>
           </div>
-          <div className="flex justify-center items-center space-x-3 col-span-1 cursor-pointer bg-red-500 py-2">
-            <FaTrashAlt key="trash" /> <p>Delete</p>
-          </div>
+          <Popconfirm
+            title="Delete the task"
+            description="Are you sure to delete this task?"
+            onConfirm={confirm}
+            onCancel={cancel}
+            okText="Yes"
+            cancelText="No"
+          >
+            <div className="flex justify-center items-center space-x-3 col-span-1 cursor-pointer bg-red-500 py-2">
+              <FaTrashAlt key="trash" /> <p>Delete</p>
+            </div>
+          </Popconfirm>
         </div>
       </Card>
       <UpdateProductModal
