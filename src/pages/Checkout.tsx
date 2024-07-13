@@ -4,6 +4,9 @@ import { FaStripe } from "react-icons/fa6";
 import { IoMdCash } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { useAddOrderMutation } from "../redux/api/baseApi";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { TCartItem } from "../types/types";
+import { clearCart } from "../redux/features/cart/cartSlice";
 type FieldType = {
   name: string;
   email?: string;
@@ -56,22 +59,50 @@ const Checkout = () => {
     setCurrent(current - 1);
   };
 
-  const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
-    console.log("Success:", values);
-  };
+  const { cart } = useAppSelector((state) => state.cart);
+
+  const subtotal = cart?.reduce(
+    (acc: number, item: TCartItem) => acc + item.price * item.quantity!,
+    0
+  );
+  const vat = subtotal * 0.15;
+  const total = subtotal + vat;
+
+  const dispatch = useAppDispatch();
 
   const [addOrder, { isLoading }] = useAddOrderMutation();
 
-  const handleOrder = () => {
-    console.log(formValues);
-    // addOrder()
+  const handleOrder = async () => {
+    const transformedCart = cart?.map((item) => ({
+      productId: item.id,
+      quantity: item.quantity,
+    }));
 
-    // message.success("Processing complete!");
-    // navigate("/order-success");
+    try {
+      const result = await addOrder({
+        ...formValues,
+        products: transformedCart,
+      }).unwrap();
+
+      if (result?.success) {
+        message.success("Processing complete!");
+        dispatch(clearCart());
+        navigate("/order-success");
+      } else {
+        message.error(result?.message);
+      }
+    } catch (error) {
+      console.error("Order failed:", error);
+      message.error("Failed to process order.");
+    }
   };
 
   const handleSelection = (paymentMethod: string) => {
     setSelectedPayment(paymentMethod);
+  };
+
+  const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
+    console.log("Success:", values);
   };
 
   return (
@@ -180,17 +211,21 @@ const Checkout = () => {
             </div>
             <div className="col-span-1 space-y-2">
               <p className="font-semibold text-xl">Order Details</p>
-              <p>
-                <strong>Product Name: </strong> Shoes
-              </p>
-              <p>
-                <strong>Quantity: </strong> 2
-              </p>
+              {cart?.map((item: TCartItem) => (
+                <div key={item.id}>
+                  <p>
+                    <strong>Product Name: </strong> {item.name}
+                  </p>
+                  <p>
+                    <strong>Quantity: </strong> {item.quantity}
+                  </p>
+                </div>
+              ))}
             </div>
             <div className="col-span-1 space-y-2">
               <p className="font-semibold text-xl">Payment Details</p>
               <p>
-                <strong>Total amount </strong> $100
+                <strong>Total amount </strong> ${total}
               </p>
               <p>
                 <strong>Payment method: </strong> {selectedPayment}
@@ -215,6 +250,7 @@ const Checkout = () => {
             onClick={() => {
               handleOrder();
             }}
+            loading={isLoading}
           >
             Submit
           </Button>

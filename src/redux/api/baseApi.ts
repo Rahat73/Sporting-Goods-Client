@@ -77,4 +77,5 @@ export const {
   useAddProductMutation,
   useUpdateProductMutation,
   useDeleteProductMutation,
+  useAddOrderMutation,
 } = baseApi;
